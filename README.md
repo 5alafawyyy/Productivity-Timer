@@ -36,11 +36,11 @@ A new Flutter project. To know the features of Rows and Columns.
 
 ## ScreenShots
 <p float="left">
-  <img src="screenshots/pomodoro_timer.jpg" width="32%" />
-  <img src="screenshots/short_break_timer.jpg" width="32%" />
-  <img src="screenshots/long_break_timer.jpg" width="32%" /> 
-  <img src="screenshots/end_timer.jpg" width="32%" /> 
+  <img src="screenshots/pomodoro_timer.jpg" width="24%" />
+  <img src="screenshots/short_break_timer.jpg" width="24%" />
+  <img src="screenshots/long_break_timer.jpg" width="24%" /> 
+  <img src="screenshots/end_timer.jpg" width="24%" /> 
 
 </p><p float="left">
-  <img src="screenshots/orientation.jpg" width="32%" />
+  <img src="screenshots/orientation.jpg" width="100%" />
 </p>
