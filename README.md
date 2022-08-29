@@ -42,5 +42,5 @@ A new Flutter project. To know the features of Rows and Columns.
   <img src="screenshots/end_timer.jpg" width="24%" /> 
 
 </p><p float="left">
-  <img src="screenshots/orientation.jpg" width="100%" />
+  <img src="screenshots/orientation.jpg" width="98%" />
 </p>
