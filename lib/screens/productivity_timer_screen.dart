@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:productivity_timer/widgets/timer.dart';
+import 'package:productivity_timer/widgets/widgets.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductivityTimerScreen extends StatefulWidget {
   const ProductivityTimerScreen({super.key});
@@ -20,122 +23,83 @@ class _ProductivityTimerScreenState extends State<ProductivityTimerScreen> {
     final buttonWidth2 = sizeX / 2.15;
     final buttonHeight = sizeY / 18;
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Productivity Timer'),
-        backgroundColor: Colors.deepOrange,
-      ),
-      body: Container(
-        height: sizeY,
-        width: sizeX,
-        padding: const EdgeInsets.symmetric(
-          vertical: 2.0,
-          horizontal: 8.0,
+    return ScopedModel(
+      model: TimerModel(),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Productivity Timer'),
+          backgroundColor: Colors.deepOrange,
         ),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    Colors.deepOrange,
-                  ),
-                  fixedSize: MaterialStateProperty.all(
-                    Size(
-                      buttonWidth3,
-                      buttonHeight,
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  ScopedModelDescendant<TimerModel>(
+                    builder: (context, _, model) => TomatoButton(
+                      color: Colors.red,
+                      text: "Pomodoro",
+                      size: buttonWidth3,
+                      onPressed: model.startPomodoro,
                     ),
                   ),
-                ),
-                child: const Text('Work'),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    Colors.lightGreen,
-                  ),
-                  fixedSize: MaterialStateProperty.all(
-                    Size(
-                      buttonWidth3,
-                      buttonHeight,
+                  ScopedModelDescendant<TimerModel>(
+                    builder: (context, _, model) => TomatoButton(
+                      color: Colors.lightGreen,
+                      text: 'Short Break',
+                      size: buttonWidth3,
+                      onPressed: model.startShort,
                     ),
                   ),
-                ),
-                child: const Text('Short Break'),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    Colors.green[700],
-                  ),
-                  fixedSize: MaterialStateProperty.all(
-                    Size(
-                      buttonWidth3,
-                      buttonHeight,
+                  ScopedModelDescendant<TimerModel>(
+                    builder: (context, _, model) => TomatoButton(
+                      color: Colors.green[700]!,
+                      text: 'Long Break',
+                      onPressed: model.startLong,
+                      size: buttonWidth3,
                     ),
                   ),
-                ),
-                child: const Text('Long Break'),
+                ],
               ),
+              Expanded(
+                  child: ScopedModelDescendant<TimerModel>(
+                builder: (context, _, model) => CircularPercentIndicator(
+                  radius: 100.0,
+                  lineWidth: 10.0,
+                  percent: model.radius,
+                  center: Text(
+                    model.time,
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                  progressColor: Colors.green,
+                ),
+              )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  ScopedModelDescendant<TimerModel>(
+                    builder: (context, _, model) => TomatoButton(
+                      color: Colors.red,
+                      text: "Stop",
+                      onPressed: model.stopTimer,
+                      size: buttonWidth2,
+                    ),
+                  ),
+                  ScopedModelDescendant<TimerModel>(
+                    builder: (context, _, model) => TomatoButton(
+                      color: Colors.lightGreen,
+                      text: "Restart",
+                      onPressed: model.restart,
+                      size: buttonWidth2,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
-          Expanded(
-            child: Center(
-              child: CircularPercentIndicator(
-                radius: sizeY / 7,
-                lineWidth: 10.0,
-                progressColor: Colors.green,
-                center: Text(
-                  '${time.inMinutes}:00',
-                  style: TextStyle(
-                    fontSize: (sizeY / 7) / 3,
-                  ),
-                ),
-                percent: 1,
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    Colors.deepOrange,
-                  ),
-                  fixedSize: MaterialStateProperty.all(
-                    Size(
-                      buttonWidth2,
-                      buttonHeight,
-                    ),
-                  ),
-                ),
-                child: const Text('Stop'),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    Colors.lightGreen,
-                  ),
-                  fixedSize: MaterialStateProperty.all(
-                    Size(
-                      buttonWidth2,
-                      buttonHeight,
-                    ),
-                  ),
-                ),
-                child: const Text('Restart'),
-              ),
-            ],
-          ),
-        ]),
+        ),
       ),
     );
   }
@@ -144,7 +108,118 @@ class _ProductivityTimerScreenState extends State<ProductivityTimerScreen> {
 
 
 
-
+// Container(
+//           height: sizeY,
+//           width: sizeX,
+//           padding: const EdgeInsets.symmetric(
+//             vertical: 2.0,
+//             horizontal: 8.0,
+//           ),
+//           child: Column(children: [
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 ElevatedButton(
+//                   onPressed: () {},
+//                   style: ButtonStyle(
+//                     backgroundColor: MaterialStateProperty.all(
+//                       Colors.deepOrange,
+//                     ),
+//                     fixedSize: MaterialStateProperty.all(
+//                       Size(
+//                         buttonWidth3,
+//                         buttonHeight,
+//                       ),
+//                     ),
+//                   ),
+//                   child: const Text('Work'),
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () {},
+//                   style: ButtonStyle(
+//                     backgroundColor: MaterialStateProperty.all(
+//                       Colors.lightGreen,
+//                     ),
+//                     fixedSize: MaterialStateProperty.all(
+//                       Size(
+//                         buttonWidth3,
+//                         buttonHeight,
+//                       ),
+//                     ),
+//                   ),
+//                   child: const Text('Short Break'),
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () {},
+//                   style: ButtonStyle(
+//                     backgroundColor: MaterialStateProperty.all(
+//                       Colors.green[700],
+//                     ),
+//                     fixedSize: MaterialStateProperty.all(
+//                       Size(
+//                         buttonWidth3,
+//                         buttonHeight,
+//                       ),
+//                     ),
+//                   ),
+//                   child: const Text('Long Break'),
+//                 ),
+//               ],
+//             ),
+//             Expanded(
+//               child: Center(
+//                 child: CircularPercentIndicator(
+//                   radius: sizeY / 7,
+//                   lineWidth: 10.0,
+//                   progressColor: Colors.green,
+//                   center: Text(
+//                     '${time.inMinutes}:00',
+//                     style: TextStyle(
+//                       fontSize: (sizeY / 7) / 3,
+//                     ),
+//                   ),
+//                   percent: 1,
+//                 ),
+//               ),
+//             ),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 ElevatedButton(
+//                   onPressed: () {},
+//                   style: ButtonStyle(
+//                     backgroundColor: MaterialStateProperty.all(
+//                       Colors.deepOrange,
+//                     ),
+//                     fixedSize: MaterialStateProperty.all(
+//                       Size(
+//                         buttonWidth2,
+//                         buttonHeight,
+//                       ),
+//                     ),
+//                   ),
+//                   child: const Text('Stop'),
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () {},
+//                   style: ButtonStyle(
+//                     backgroundColor: MaterialStateProperty.all(
+//                       Colors.lightGreen,
+//                     ),
+//                     fixedSize: MaterialStateProperty.all(
+//                       Size(
+//                         buttonWidth2,
+//                         buttonHeight,
+//                       ),
+//                     ),
+//                   ),
+//                   child: const Text('Restart'),
+//                 ),
+//               ],
+//             ),
+//           ]),
+//         ),
+     
 
 
 
